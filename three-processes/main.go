@@ -22,6 +22,7 @@ func (r *Resource) Access(s *ThreadState) {
   r.mutex1.Lock()
 
   if r.numWorking >= 3 {
+    fmt.Println("blocking until resource free")
     //block until all are complete
     for ;  ; {
       time.Sleep(1*time.Millisecond)
@@ -41,10 +42,9 @@ func (r *Resource) Access(s *ThreadState) {
 
   // do work.. wait a random amount of time
 
-  workTime := rand.Intn(10-2)+2
 
   s.SetState(getGID(), "w")
-  time.Sleep(time.Duration(workTime)*time.Second)
+  time.Sleep(5*time.Second)
 
   r.mutex2.Lock()
   r.numWorking--
@@ -60,13 +60,16 @@ func main() {
   state := NewThreadState(4)
 
   for i := 0; i < 5; i++ {
-    go func(r *Resource, s *ThreadState) {
+	rnd := rand.New(rand.NewSource(int64(i)))
+    go func(r *Resource, s *ThreadState, rnd *rand.Rand) {
       s.AddKey(getGID())
 
       for ; ; {
+        wt := rnd.Intn(10)
+        time.Sleep(time.Duration(wt)*time.Second)
         r.Access(state)
       }
-    } (&r, state)
+    } (&r, state, rnd)
   }
 
   for ; ; {

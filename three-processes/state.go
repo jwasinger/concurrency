@@ -58,17 +58,19 @@ func (t *ThreadState) Print() {
     strBuf.WriteString(s)
   }
 
-  //strBuf.WriteString("\n")
+  strBuf.WriteString("\n")
   
+  /*
   resetBuf := &bytes.Buffer{}
   for i := 0; i < len(strBuf.String()); i++ {
     resetBuf.WriteString("\b")
   }
 
   resetBuf.WriteString("\b")
+  */
 
   fmt.Printf(strBuf.String())
-  fmt.Printf(resetBuf.String())
+  //fmt.Printf(resetBuf.String())
 }
 
 func (t *ThreadState) AddKey(val uint64) {

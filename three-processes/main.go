@@ -5,6 +5,7 @@ import (
   "time"
   "runtime"
   "math/rand"
+  "fmt"
 )
 
 type Resource struct {
@@ -25,6 +26,7 @@ func (r *Resource) Access(s *ThreadState) {
     for ;  ; {
       time.Sleep(1*time.Millisecond)
       if r.numWorking == 0 {
+        fmt.Println("all done")
         time.Sleep(1*time.Second)
         break
       }
@@ -57,7 +59,7 @@ func main() {
 
   state := NewThreadState(4)
 
-  for i := 0; i < 4; i++ {
+  for i := 0; i < 5; i++ {
     go func(r *Resource, s *ThreadState) {
       s.AddKey(getGID())
 

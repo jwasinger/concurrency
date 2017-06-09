@@ -37,8 +37,6 @@ func (t *Table) Place() {
 	for ; ; {
 		num2 = rand.Intn(3)
 		if num1 != num2 {
-			fmt.Printf("%d, %d\n", num1, num2)
-
 			break	
 		}
 	}
@@ -46,7 +44,7 @@ func (t *Table) Place() {
 	t.activeResources[0] = &t.resources[num1]
 	t.activeResources[1] = &t.resources[num2]
 	
-	//fmt.Printf("%s and %s placed on table\n", *t.activeResources[0], *t.activeResources[1])
+	fmt.Printf("%s and %s placed on table\n", *t.activeResources[0], *t.activeResources[1])
 }
 
 func NewTable() *Table {
@@ -85,7 +83,7 @@ func smoker(resource Resource, table *Table) {
 			continue
 		}
 
-		fmt.Printf("goroutine %d is making cigarette [%s, %s] %s\n", getGID(), resources[0].Name(), resources[1].Name(), resource.Name())
+		fmt.Printf("goroutine %d is making cigarette with %s\n", getGID(), resource.Name())
 		time.Sleep(1*time.Second)
 		table.Smoked() <- true
 	}
@@ -98,7 +96,7 @@ func agent(t *Table) {
 		t.Round() <- true
 		t.Round() <- true
 		<- t.Smoked()
-		fmt.Println("smoked")
+		fmt.Println("agent sees that cigarette was smoked\n")
 	}
 }
 

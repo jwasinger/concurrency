@@ -50,8 +50,8 @@ func (t *Table) Place() {
 func NewTable() *Table {
 	table := &Table{
 		resources: [3]Resource{NewResource("tobacco"), NewResource("matches"), NewResource("papers")},
-		smoked: make(chan bool),
-		round: make(chan bool),
+		smoked: make(chan bool, 1),
+		round: make(chan bool, 1),
 		activeResources: [2]*Resource{nil, nil},
 	}
 
